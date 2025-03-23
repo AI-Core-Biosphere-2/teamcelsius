@@ -2,7 +2,6 @@
 from ai_integration import generate_summary
 import datetime
 
-# Global conversation log list; each entry is a dict with timestamp, expert, and message.
 conversation_log = []
 
 def add_expert_message(expert, message):

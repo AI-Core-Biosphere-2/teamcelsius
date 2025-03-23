@@ -2,7 +2,7 @@
 import pandas as pd
 from statsmodels.tsa.api import VAR
 
-def train_var_model(data, maxlags=15):
+def train_var_model(data, maxlags=3):
     """
     Trains a VAR model on the given DataFrame.
     Assumes data is indexed by DateTime.
