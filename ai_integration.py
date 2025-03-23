@@ -1,7 +1,7 @@
 # ai_integration.py
 import subprocess
 
-def generate_summary(simulation_text, model="phi3"): # you can change model asper requirement here 
+def generate_summary(simulation_text, model="phi3"):
     """
     Uses the local AI model (via Ollama) to generate a natural language summary.
     simulation_text: text description of simulation results.

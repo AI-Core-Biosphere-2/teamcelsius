@@ -13,19 +13,30 @@ def add_expert_message(expert, message):
         "message": message
     })
 
-def generate_expert_response(expert, context):
+def generate_expert_response(expert, context, data_summary=None, model_choice="phi3"):
     """
     Generates an expert response using the local LLM.
-    The prompt instructs the model to provide a clear, comprehensive, and actionable analysis.
-    Uses the 'phi3' model for faster, focused responses.
+    
+    If a data summary is provided, it is included in the prompt so the expert can base its answer on the actual data.
+    The prompt instructs the expert to provide a clear, comprehensive, and actionable analysis.
     """
-    prompt = (
-        f"You are {expert}, a seasoned expert in environmental sensor data analysis. "
-        "Your role is to provide a clear, comprehensive, and actionable forecast based on the data summary below. "
-        "Please ensure your response is complete and does not include placeholders. "
-        f"Context: {context}\n\nProvide your detailed expert analysis:"
-    )
-    response = generate_summary(prompt, model="phi3")
+    if data_summary:
+        prompt = (
+            f"You are {expert}, a seasoned expert in environmental sensor data analysis. "
+            "You have access to the following data summary extracted from the current dataset. "
+            "Based on this data and the context provided, please deliver a detailed, actionable, and specific forecast and analysis. "
+            f"Data Summary: {data_summary}\n"
+            f"Context: {context}\n\n"
+            "Provide your expert analysis:"
+        )
+    else:
+        prompt = (
+            f"You are {expert}, a seasoned expert in environmental sensor data analysis. "
+            "Based on the context provided, please deliver a detailed, actionable, and specific forecast and analysis. "
+            f"Context: {context}\n\n"
+            "Provide your expert analysis:"
+        )
+    response = generate_summary(prompt, model=model_choice)
     add_expert_message(expert, response)
     return response
 
