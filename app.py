@@ -7,7 +7,7 @@ from alternative_models import forecast_arima, forecast_prophet
 from ai_integration import generate_summary
 from experts import add_expert_message, generate_expert_response, get_conversation_log
 
-st.set_page_config(page_title="Ecosystem Simulation & Collaborative Forecasting", layout="wide")
+st.set_page_config(page_title="SimuLad", layout="wide")
 st.title("SimuLad")
 
 # --- Load Data ---
@@ -91,47 +91,20 @@ elif page == "Visualizations":
         fig_line = px.line(df_sim, x="DateTime", y=selected_metric, title=f"{selected_metric} Over Time")
         st.plotly_chart(fig_line, use_container_width=True)
 
-# elif page == "Expert Collaboration":
-#     st.header("Expert Collaboration (AI Experts)")
-#     st.markdown("Simulated expert discussion among AI specialists analyzing different variables.")
-#     # Expert model selection
-#     expert_model = st.sidebar.selectbox("Select Expert Model", ["gemma3", "deepseek-r1", "llama3.3", "mistral", "phi3"])
-#     # Optional data summary for the experts (user can paste a summary of key statistics/trends)
-#     data_summary_input = st.sidebar.text_area("Data Summary for Expert Analysis (optional)", height=150,
-#                                               help="Enter a summary of the relevant data (e.g., key statistics, trends) for expert analysis.")
-#     log = get_conversation_log()
-#     if log:
-#         for entry in log:
-#             st.markdown(f"**{entry['timestamp']} - {entry['expert']}**: {entry['message']}")
-#     else:
-#         st.info("No expert messages yet.")
-#     if st.button("Generate Expert Discussion"):
-#         add_expert_message("Temperature Expert", "Based on the latest sensor data, I observe a subtle upward trend in temperature.")
-#         context = ("Temperature Expert: I observe a subtle upward trend in temperature which might affect humidity and other related variables. "
-#                    "Please analyze how this trend could impact overall ecosystem dynamics.")
-#         generate_expert_response("Humidity Expert", context, data_summary=data_summary_input, model_choice=expert_model)
-#         st.success("Expert discussion updated.")
-#         log = get_conversation_log()
-#         for entry in log:
-#             st.markdown(f"**{entry['timestamp']} - {entry['expert']}**: {entry['message']}")
-# In app.py (Expert Collaboration page)
+
 elif page == "Expert Collaboration":
     st.header("Expert Collaboration (AI Experts)")
     st.markdown("Simulated expert discussion among AI specialists analyzing the current ecosystem data.")
-    
+
     # Let the user select an expert LLM model.
     expert_model = st.sidebar.selectbox("Select Expert Model", ["gemma3", "deepseek-r1", "llama3.3", "mistral", "phi3"])
     
-    # Compute a short data summary from the selected ecosystem's sensor data.
-    if sensor_cols:
-        data_summary = df_ecosystem[sensor_cols].agg(['mean','std','min','max']).round(2).to_string()
-    else:
-        data_summary = "No sensor data available."
-        
-    st.write("Data Summary (for expert analysis):")
-    st.text(data_summary)
+    # (Optional) If you want to allow the user to provide a clean summary, you can uncomment:
+    # data_summary_input = st.sidebar.text_area("Optional Data Summary (clean, without NA values)", height=150)
+    # Otherwise, we use an empty string.
+    data_summary_input = ""
     
-    # Display the current conversation log.
+    # Display the conversation log.
     log = get_conversation_log()
     if log:
         for entry in log:
@@ -139,29 +112,24 @@ elif page == "Expert Collaboration":
     else:
         st.info("No expert messages yet.")
     
-    # When the user clicks the button, generate expert responses.
     if st.button("Generate Expert Discussion"):
-        # Clear previous messages (optional: you could also append)
-        # Generate response from Temperature Expert:
+        # Generate expert responses without including raw data summary.
         add_expert_message("Temperature Expert", "Based on the latest sensor data, I observe a subtle upward trend in temperature.")
-        context_temp = ("Temperature Expert: I observe a subtle upward trend in temperature that could impact other variables. "
+        context_temp = ("Temperature Expert: I observe a subtle upward trend in temperature that could affect other variables. "
                         "Please provide an in-depth analysis of the potential impacts on the ecosystem.")
-        generate_expert_response("Temperature Expert", context_temp, data_summary=data_summary, model_choice=expert_model)
+        generate_expert_response("Temperature Expert", context_temp, data_summary=data_summary_input, model_choice=expert_model)
         
-        # Generate response from Humidity Expert:
-        add_expert_message("Humidity Expert", "Based on temperature trends, I anticipate corresponding changes in humidity levels.")
+        add_expert_message("Humidity Expert", "Based on the temperature trends, I expect corresponding changes in humidity levels.")
         context_humidity = ("Humidity Expert: Considering the observed temperature trends and their potential influence on moisture, "
-                            "please analyze how humidity levels might change and what actionable steps could be taken.")
-        generate_expert_response("Humidity Expert", context_humidity, data_summary=data_summary, model_choice=expert_model)
+                            "please analyze how humidity levels might change and suggest actionable recommendations.")
+        generate_expert_response("Humidity Expert", context_humidity, data_summary=data_summary_input, model_choice=expert_model)
         
-        # Generate response from Wind Speed Expert:
         add_expert_message("Wind Speed Expert", "Observations indicate fluctuations in wind speed which may affect dispersion patterns.")
-        context_wind = ("Wind Speed Expert: Given the variability in wind speed from the dataset, please evaluate how these fluctuations might "
-                        "influence overall ecosystem dynamics, particularly pollutant dispersion or microclimate effects.")
-        generate_expert_response("Wind Speed Expert", context_wind, data_summary=data_summary, model_choice=expert_model)
+        context_wind = ("Wind Speed Expert: Given the variability in wind speed from the dataset, please evaluate how these fluctuations "
+                        "might influence overall ecosystem dynamics, particularly pollutant dispersion or microclimate effects.")
+        generate_expert_response("Wind Speed Expert", context_wind, data_summary=data_summary_input, model_choice=expert_model)
         
         st.success("Expert discussion updated.")
-        # Display updated log.
         log = get_conversation_log()
         for entry in log:
             st.markdown(f"**{entry['timestamp']} - {entry['expert']}**: {entry['message']}")

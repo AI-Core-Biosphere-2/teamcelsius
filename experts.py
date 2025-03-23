@@ -17,14 +17,14 @@ def generate_expert_response(expert, context, data_summary=None, model_choice="p
     """
     Generates an expert response using the local LLM.
     
-    If a data summary is provided, it is included in the prompt so the expert can base its answer on the actual data.
-    The prompt instructs the expert to provide a clear, comprehensive, and actionable analysis.
+    If a non-empty data_summary is provided, it will be included in the prompt.
+    Otherwise, only the context is provided.
+    The prompt instructs the model to produce a detailed and actionable analysis.
     """
-    if data_summary:
+    if data_summary and data_summary.strip():
         prompt = (
             f"You are {expert}, a seasoned expert in environmental sensor data analysis. "
-            "You have access to the following data summary extracted from the current dataset. "
-            "Based on this data and the context provided, please deliver a detailed, actionable, and specific forecast and analysis. "
+            "Based on the following summarized data and context, provide a detailed, actionable analysis and forecast. "
             f"Data Summary: {data_summary}\n"
             f"Context: {context}\n\n"
             "Provide your expert analysis:"
@@ -32,7 +32,8 @@ def generate_expert_response(expert, context, data_summary=None, model_choice="p
     else:
         prompt = (
             f"You are {expert}, a seasoned expert in environmental sensor data analysis. "
-            "Based on the context provided, please deliver a detailed, actionable, and specific forecast and analysis. "
+            "Based on the following context, provide a detailed, actionable, and specific forecast and analysis. "
+            "Do not include generic placeholders or incomplete ranges. "
             f"Context: {context}\n\n"
             "Provide your expert analysis:"
         )
