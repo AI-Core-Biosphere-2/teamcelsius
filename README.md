@@ -45,18 +45,15 @@ streamlit run app.py
 ```
 3. **Navigate Through Pages:**
 
-- Visualizations: Explore metric variations and correlation heatmaps.
+**a.** Visualizations: Explore metric variations and correlation heatmaps.
 
-- Forecasting: 
-a. Choose "Single Ecosystem" to forecast for one environment or "Compare Ecosystems" to forecast for two environments and compare their forecasts.
+**b.** Forecasting:
+- Choose "Single Ecosystem" to forecast for one environment or "Compare Ecosystems" to forecast for two environments and compare their forecasts.
+- Adjust simulation parameters (temperature and wind speed changes) and select your forecast model (ARIMA or Prophet).
 
-b. Adjust simulation parameters (temperature and wind speed changes) and select your forecast model (ARIMA or Prophet).
-
-- Expert Collaboration:
-
-a. Select an expert LLM model.
-
-b. Generate expert discussions where simulated experts (Temperature, Humidity, Wind Speed) provide actionable insights based on the data.
+**c** Expert Collaboration:
+- Select an expert LLM model.
+- Generate expert discussions where simulated experts (Temperature, Humidity, Wind Speed) provide actionable insights based on the data.
 
 ## Future Scope
 - Deep Embedded Agentic AI:
