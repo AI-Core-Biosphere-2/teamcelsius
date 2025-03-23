@@ -1,4 +1,3 @@
-# ai_integration.py
 import subprocess
 
 def generate_summary(simulation_text, model="phi3"):

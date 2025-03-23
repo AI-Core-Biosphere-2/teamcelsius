@@ -1,8 +1,6 @@
-# experts.py
 import datetime
 from ai_integration import generate_summary
 
-# Global conversation log.
 conversation_log = []
 
 def add_expert_message(expert, message):

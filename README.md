@@ -13,6 +13,9 @@ SimuLad is an interactive ecosystem simulation and collaborative forecasting app
 - **Expert Collaboration:**  
   Simulate a discussion among domain experts (Temperature, Humidity, Wind Speed, etc.) using local LLM models (choose from gemma3, deepseek‑r1, llama3.3, mistral, phi3). Experts generate actionable insights based on the sensor data and provided context.
 
+## Demo Video of the Application 
+[Simulad Demo for HackArizona 2025](https://youtu.be/k-h7qteMtAA)
+
 ## Installation
 
 1. **Clone the repository:**
@@ -35,15 +38,15 @@ pip install -r requirements.txt
 **Note-** Ensure you have Ollama installed and the desired local LLM models (e.g., gemma3, deepseek‑r1, llama3.3, mistral, phi3) available.
 
 ## Usage
-1. **Prepare the Data:**
+### 1. **Prepare the Data:**
 Place your merged sensor dataset as merged_data.csv in the project root. This CSV should contain a DateTime column, a Location column, and sensor metric columns. You can process the raw data provided using the `data-processing.py`
 
-2. **Run the Application:**
+### 2. **Run the Application:**
 
 ```bash
 streamlit run app.py
 ```
-3. **Navigate Through Pages:**
+### 3. **Navigate Through Pages:**
 
 **a.** Visualizations: Explore metric variations and correlation heatmaps.
 
@@ -51,7 +54,7 @@ streamlit run app.py
 - Choose "Single Ecosystem" to forecast for one environment or "Compare Ecosystems" to forecast for two environments and compare their forecasts.
 - Adjust simulation parameters (temperature and wind speed changes) and select your forecast model (ARIMA or Prophet).
 
-**c** Expert Collaboration:
+**c.** Expert Collaboration:
 - Select an expert LLM model.
 - Generate expert discussions where simulated experts (Temperature, Humidity, Wind Speed) provide actionable insights based on the data.
 
